@@ -2,7 +2,20 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 const getRandom = (max) => {
+  // returns a random int in [0, max)
   return Math.floor(Math.random() * Math.floor(max));
+};
+
+const getMaxIdx = (arr) => {
+  // returns the index of the maximum value in arr
+  let maxIdx = 0;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] > arr[maxIdx]) {
+      maxIdx = i;
+    }
+  }
+
+  return maxIdx;
 };
 
 const Button = ({ text, handler }) => {
@@ -15,8 +28,11 @@ const App = (props) => {
 
   let copy = [...votes];
 
+  const topVotes = getMaxIdx(votes);
+
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <p>{props.anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <Button
@@ -30,6 +46,9 @@ const App = (props) => {
         text="next anecdote"
         handler={() => setSelected(getRandom(props.anecdotes.length))}
       />
+      <h1>Anecdote with most votes</h1>
+      <p>{props.anecdotes[topVotes]}</p>
+      <p>has {votes[topVotes]} votes</p>
     </>
   );
 };
